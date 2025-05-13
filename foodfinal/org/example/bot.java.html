@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>bot.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #2aacb8;}
+.s5 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+bot.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">org</span><span class="s2">.</span><span class="s1">example</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">opencsv</span><span class="s2">.</span><span class="s1">CSVReader</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">opencsv</span><span class="s2">.</span><span class="s1">CSVReaderBuilder</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">opencsv</span><span class="s2">.</span><span class="s1">exceptions</span><span class="s2">.</span><span class="s1">CsvValidationException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">net</span><span class="s2">.</span><span class="s1">dv8tion</span><span class="s2">.</span><span class="s1">jda</span><span class="s2">.</span><span class="s1">api</span><span class="s2">.</span><span class="s1">entities</span><span class="s2">.</span><span class="s1">channel</span><span class="s2">.</span><span class="s1">middleman</span><span class="s2">.</span><span class="s1">MessageChannel</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">net</span><span class="s2">.</span><span class="s1">dv8tion</span><span class="s2">.</span><span class="s1">jda</span><span class="s2">.</span><span class="s1">api</span><span class="s2">.</span><span class="s1">events</span><span class="s2">.</span><span class="s1">message</span><span class="s2">.</span><span class="s1">MessageReceivedEvent</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">net</span><span class="s2">.</span><span class="s1">dv8tion</span><span class="s2">.</span><span class="s1">jda</span><span class="s2">.</span><span class="s1">api</span><span class="s2">.</span><span class="s1">hooks</span><span class="s2">.</span><span class="s1">ListenerAdapter</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">net</span><span class="s2">.</span><span class="s1">dv8tion</span><span class="s2">.</span><span class="s1">jda</span><span class="s2">.</span><span class="s1">api</span><span class="s2">.</span><span class="s1">entities</span><span class="s2">.</span><span class="s1">Message</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">FileReader</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">IOException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">Reader</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">nio</span><span class="s2">.</span><span class="s1">file</span><span class="s2">.</span><span class="s1">Files</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">nio</span><span class="s2">.</span><span class="s1">file</span><span class="s2">.</span><span class="s1">Path</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">bot </span><span class="s0">extends </span><span class="s1">ListenerAdapter </span><span class="s2">{</span>
+    <span class="s3">//reader</span>
+    <span class="s0">public static </span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">[]&gt; </span><span class="s1">readAllLines</span><span class="s2">(</span><span class="s1">Path filePath</span><span class="s2">) </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+        <span class="s0">try </span><span class="s2">(</span><span class="s1">Reader reader </span><span class="s2">= </span><span class="s1">Files</span><span class="s2">.</span><span class="s1">newBufferedReader</span><span class="s2">(</span><span class="s1">filePath</span><span class="s2">)) {</span>
+            <span class="s0">try </span><span class="s2">(</span><span class="s1">CSVReader csvReader </span><span class="s2">= </span><span class="s0">new </span><span class="s1">CSVReader</span><span class="s2">(</span><span class="s1">reader</span><span class="s2">)) {</span>
+                <span class="s0">return </span><span class="s1">csvReader</span><span class="s2">.</span><span class="s1">readAll</span><span class="s2">();</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public static void </span><span class="s1">readAllDataAtOnce</span><span class="s2">(</span><span class="s1">String file</span><span class="s2">)</span>
+    <span class="s2">{</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s3">// Create an object of file reader</span>
+            <span class="s3">// class with CSV file as a parameter.</span>
+            <span class="s1">FileReader filereader </span><span class="s2">= </span><span class="s0">new </span><span class="s1">FileReader</span><span class="s2">(</span><span class="s1">file</span><span class="s2">);</span>
+
+            <span class="s3">// create csvReader object and skip first Line</span>
+            <span class="s1">CSVReader csvReader </span><span class="s2">= </span><span class="s0">new </span><span class="s1">CSVReaderBuilder</span><span class="s2">(</span><span class="s1">filereader</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">withSkipLines</span><span class="s2">(</span><span class="s4">1</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">build</span><span class="s2">();</span>
+            <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">[]&gt; </span><span class="s1">allData </span><span class="s2">= </span><span class="s1">csvReader</span><span class="s2">.</span><span class="s1">readAll</span><span class="s2">();</span>
+
+            <span class="s3">// print Data</span>
+            <span class="s0">for </span><span class="s2">(</span><span class="s1">String</span><span class="s2">[] </span><span class="s1">row </span><span class="s2">: </span><span class="s1">allData</span><span class="s2">) {</span>
+                <span class="s0">for </span><span class="s2">(</span><span class="s1">String cell </span><span class="s2">: </span><span class="s1">row</span><span class="s2">) {</span>
+                    <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">print</span><span class="s2">(</span><span class="s1">cell </span><span class="s2">+ </span><span class="s5">&quot;</span><span class="s0">\t</span><span class="s5">&quot;</span><span class="s2">);</span>
+                <span class="s2">}</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">();</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+        <span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+            <span class="s1">e</span><span class="s2">.</span><span class="s1">printStackTrace</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">String</span><span class="s2">[] </span><span class="s1">searchcsv</span><span class="s2">(</span><span class="s1">String searchWord</span><span class="s2">) {</span>
+        <span class="s1">CSVReader reader </span><span class="s2">= </span><span class="s0">new </span><span class="s1">CSVReader</span><span class="s2">(</span><span class="s0">new </span><span class="s1">FileReader</span><span class="s2">(</span><span class="s5">&quot;C:</span><span class="s0">\\</span><span class="s5">Users</span><span class="s0">\\</span><span class="s5">gabet</span><span class="s0">\\</span><span class="s5">IdeaProjects</span><span class="s0">\\</span><span class="s5">forreal</span><span class="s0">\\</span><span class="s5">src</span><span class="s0">\\</span><span class="s5">main</span><span class="s0">\\</span><span class="s5">java</span><span class="s0">\\</span><span class="s5">output.csv&quot;</span><span class="s2">));</span>
+        <span class="s1">String </span><span class="s2">[] </span><span class="s1">nextLine</span><span class="s2">;</span>
+        <span class="s0">while </span><span class="s2">((</span><span class="s1">nextLine </span><span class="s2">= </span><span class="s1">reader</span><span class="s2">.</span><span class="s1">readNext</span><span class="s2">()) != </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">for </span><span class="s2">(</span><span class="s1">String field</span><span class="s2">: </span><span class="s1">nextLine</span><span class="s2">) {</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">field</span><span class="s2">.</span><span class="s1">matches</span><span class="s2">(</span><span class="s1">searchWord</span><span class="s2">)) {</span>
+                    <span class="s0">return </span><span class="s1">nextLine</span><span class="s2">;</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+        <span class="s0">return </span><span class="s1">nextLine</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onMessageReceived</span><span class="s2">(</span><span class="s1">MessageReceivedEvent event</span><span class="s2">) {</span>
+        <span class="s1">String mypath </span><span class="s2">= </span><span class="s5">&quot;C:</span><span class="s0">\\</span><span class="s5">Users</span><span class="s0">\\</span><span class="s5">gabet</span><span class="s0">\\</span><span class="s5">IdeaProjects</span><span class="s0">\\</span><span class="s5">forreal</span><span class="s0">\\</span><span class="s5">src</span><span class="s0">\\</span><span class="s5">main</span><span class="s0">\\</span><span class="s5">java</span><span class="s0">\\</span><span class="s5">output.csv&quot;</span><span class="s2">;</span>
+        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s5">&quot;test&quot;</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">event</span><span class="s2">.</span><span class="s1">getAuthor</span><span class="s2">().</span><span class="s1">isBot</span><span class="s2">())</span>
+            <span class="s0">return</span><span class="s2">;</span>
+        <span class="s3">// We don't want to respond to other bot accounts, including ourself</span>
+        <span class="s1">Message message </span><span class="s2">= </span><span class="s1">event</span><span class="s2">.</span><span class="s1">getMessage</span><span class="s2">();</span>
+        <span class="s1">String content </span><span class="s2">= </span><span class="s1">message</span><span class="s2">.</span><span class="s1">getContentRaw</span><span class="s2">();</span>
+        <span class="s3">// getContentRaw() is an atomic getter</span>
+        <span class="s3">// getContentDisplay() is a lazy getter which modifies the content for e.g.</span>
+        <span class="s3">// console view (strip discord formatting)</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">content</span><span class="s2">.</span><span class="s1">equals</span><span class="s2">(</span><span class="s5">&quot;explode&quot;</span><span class="s2">)) {</span>
+            <span class="s1">MessageChannel channel </span><span class="s2">= </span><span class="s1">event</span><span class="s2">.</span><span class="s1">getChannel</span><span class="s2">();</span>
+                <span class="s1">channel</span><span class="s2">.</span><span class="s1">sendMessage</span><span class="s2">(</span><span class="s5">&quot;trying to search csv&quot;</span><span class="s2">);</span>
+                <span class="s3">//String[] toJoin = searchcsv(&quot;baki&quot;);</span>
+                <span class="s1">channel</span><span class="s2">.</span><span class="s1">sendMessage</span><span class="s2">(</span><span class="s5">&quot;trying to join string array&quot;</span><span class="s2">);</span>
+                <span class="s3">//String toSend = String.join(&quot;,&quot;, toJoin);</span>
+                <span class="s1">channel</span><span class="s2">.</span><span class="s1">sendMessage</span><span class="s2">(</span><span class="s5">&quot;trying to send joined string&quot;</span><span class="s2">);</span>
+                <span class="s3">//channel.sendMessage(toSend)</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>
